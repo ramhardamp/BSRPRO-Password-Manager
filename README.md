@@ -1,0 +1,1 @@
+# bsrpro-password-manager
