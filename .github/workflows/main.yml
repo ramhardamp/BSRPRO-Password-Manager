@@ -1,0 +1,41 @@
+name: Build APK from ZIP
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Extract project from ZIP
+        run: |
+          unzip -o bsrpro-vault-phase1-2.zip -d project
+          ls -la project/
+      
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - uses: android-actions/setup-android@v3
+      
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.7
+      
+      - name: Build APK
+        working-directory: project
+        run: |
+          ls -la
+          gradle assembleDebug --stacktrace --no-daemon
+      
+      - name: Upload APK
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bsrpro-debug-apk
+          path: project/app/build/outputs/apk/debug/*.apk
