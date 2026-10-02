@@ -15,7 +15,7 @@ jobs:
       - name: Extract ZIP
         run: |
           mkdir -p extracted
-          unzip -o bsrpro-vault-phase3-9.zip -d extracted
+          unzip -o bsrpro-vault-0.2.1-fixes.zip -d extracted
           echo "=== Files at root of extract ==="
           ls -la extracted/
       
